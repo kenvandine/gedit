@@ -44,6 +44,7 @@ apps:
       # release.
       # GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
       GSETTINGS_SCHEMA_DIR: /snap/gedit/current/share/glib-2.0/schemas
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/snap/gedit/current/lib/gedit
     plugs:
       - x11
       - home
@@ -53,7 +54,7 @@ apps:
       - gedit
 
 parts:
-  fileroller:
+  gedit:
     after:
       - desktop-gtk3
     plugin: autotools
