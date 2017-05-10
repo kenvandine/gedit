@@ -1,0 +1,85 @@
+name: gedit
+version: 3.22.0
+summary: Edit text files
+description: |
+
+    gedit is the official text editor of the GNOME desktop environment.
+    While aiming at simplicity and ease of use, gedit is a powerful general
+    purpose text editor.
+
+    Whether you are writing the next bestseller, programming an innovative
+    application, or simply taking some quick notes, gedit will be a reliable
+    tool to accomplish your task.
+
+    Its flexible plugin system allows you to tailor the application to your
+    needs and adapt it to your workflow.
+
+icon: data/icons/hicolor/256x256/apps/gedit.png
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: strict
+
+# libgdk is linked with libmirclient, which doesn't seem to end up in
+# the snap otherwise.
+plugs:
+  mir-libs:
+    interface: content
+    content: mir0
+    target: mir-libs
+    default-provider: mir-libs
+
+slots:
+  # for GtkApplication registration
+  gedit:
+    interface: dbus
+    bus: session
+    name: org.gnome.gedit
+
+apps:
+  gedit:
+    command: desktop-launch $SNAP/bin/gedit
+    environment:
+      # FIXME: This should read as follows, but won't work until
+      # https://github.com/snapcore/snapd/pull/3020 is included in a
+      # release.
+      # GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
+      GSETTINGS_SCHEMA_DIR: /snap/gedit/current/share/glib-2.0/schemas
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/snap/gedit/current/lib/gedit
+    plugs:
+      - x11
+      - home
+      - gsettings
+      - mir-libs
+    slots:
+      - gedit
+
+parts:
+  gedit:
+    after:
+      - desktop-gtk3
+    plugin: autotools
+    source: .
+    install: |
+      mkdir -p $SNAPCRAFT_PART_INSTALL/mir-libs
+      glib-compile-schemas $SNAPCRAFT_PART_INSTALL/share/glib-2.0/schemas
+
+    build-packages:
+      - desktop-file-utils
+      - gettext
+      - gnome-common
+      - gsettings-desktop-schemas-dev
+      - intltool
+      - libsoup2.4-dev
+      - libgspell-1-dev
+      - libxml2-dev
+      - libglib2.0-dev
+      - libgtk-3-dev
+      - libgtksourceview-3.0-dev
+      - libpeas-dev
+      - libx11-dev
+      - python3
+      - python-gi-dev
+      - yelp-tools
+      - gobject-introspection
+      - libgirepository1.0-dev
+      - valac
