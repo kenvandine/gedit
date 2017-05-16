@@ -44,6 +44,7 @@ apps:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/gedit
 
     plugs:
+      - network
       - x11
       - home
       - gsettings
