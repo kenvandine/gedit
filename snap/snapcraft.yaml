@@ -38,11 +38,8 @@ slots:
 apps:
   gedit:
     command: desktop-launch $SNAP/bin/gedit
+    desktop: share/applications/org.gnome.gedit.desktop
     environment:
-      # FIXME: This should read as follows, but won't work until
-      # https://github.com/snapcore/snapd/pull/3020 is included in a
-      # release.
-      # GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
       GSETTINGS_SCHEMA_DIR: /snap/gedit/current/share/glib-2.0/schemas
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/snap/gedit/current/lib/gedit
     plugs:
