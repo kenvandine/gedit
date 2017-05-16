@@ -40,8 +40,9 @@ apps:
     command: desktop-launch $SNAP/bin/gedit
     desktop: share/applications/org.gnome.gedit.desktop
     environment:
-      GSETTINGS_SCHEMA_DIR: /snap/gedit/current/share/glib-2.0/schemas
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/snap/gedit/current/lib/gedit
+      GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/gedit
+
     plugs:
       - x11
       - home
@@ -80,3 +81,10 @@ parts:
       - gobject-introspection
       - libgirepository1.0-dev
       - valac
+
+    stage-packages:
+      - gir1.2-peas-1.0
+      - gir1.2-gtk-3.0
+      - gir1.2-gtksource-3.0
+      - gir1.2-glib-2.0
+      - gir1.2-pango-1.0
